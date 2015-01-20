@@ -1,0 +1,8 @@
+<?php
+$SQL = array(
+	'port' => "3306",
+	'host' => "localhost",
+	'user' => "username",
+	'pass' => "password",
+	'db' => "database",
+);
