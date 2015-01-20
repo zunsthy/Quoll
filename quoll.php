@@ -40,7 +40,7 @@ class Quoll {
 		$DB = new DB($SQL);
 		// print_r($DB);
 		if($DB->connect_errno){
-			$this->quit('['.$DB->connect_errno.']:'.$DB->connect_error, true);
+			$this::quit('Error['.$DB->connect_errno.']: '.$DB->connect_error, true);
 		}
 		$this->DB = $DB;
 	}
@@ -68,7 +68,7 @@ class Quoll {
 	 * @note 
 	 *  if 'stat'/'msg' set null or true, it works.
 	 */
-	public function quit($stat, $msg = ""){
+	static public function quit($stat, $msg = ""){
 		if(!$stat){
 			die(json_encode(array("empty", "")));
 		} elseif($stat === true){
@@ -79,5 +79,41 @@ class Quoll {
 			die(json_encode(array($stat, $msg)));
 		}
 		return;
+	}
+	
+	/**
+	 * @brief 
+	 * @param str query string
+	 * @return the query result
+	 */
+	public function query($str){
+		// TODO : 'mysqli_stmt' replaces it
+		$ret = $this->DB->query($str);
+		if($this->DB->error){
+			$this::quit('Error['.$this->DB->errno.']: '.$this->DB->error, true);
+		}
+		return $ret;
+	}
+	
+	/**
+	 * @brief escape string
+	 * @param str 
+	 * @param more
+	 * @param strict 
+	 * @return the string after escape
+	 */
+	public function esc($str, $more = false, $strict = true){
+		// Stripslashes
+		if(get_magic_quotes_gpc()){
+			$str = stripslashes($str);
+		}
+		// Quote if not a number or a numeric string
+		if($strict || !is_numeric($str)){
+			$str = "'" .$this->DB->real_escape_string($str) ."'";
+		} 
+		// avoid "LIKE '%xxx_'"
+		if($more)
+			$str = addcslashes($str, '%_');
+		return $str;
 	}
 }
