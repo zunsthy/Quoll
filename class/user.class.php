@@ -1,6 +1,7 @@
 <?php
 class USER {
 	private $user = null;
+	private $updateset = array();
 	
 	function __construct(){
 		$ret = $this::compareKey();
@@ -37,7 +38,7 @@ session_start();
 	static public function createKey($id, $name, $passhash){
 session_start();
 		// TODO: make it reversible
-		$key = md5($id.$name) .passkey_hash($passhash, PASSWORD_BCRYPT, ['cost'=>5]);
+		$key = md5($id.$name) .passkey_hash($pass, PASSWORD_BCRYPT, ['cost'=>5]);
 		$_SESSION['key'] = $key;
 		$_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
 		$_SESSION['id'] = $id;
@@ -49,9 +50,9 @@ session_start();
 		return [$p1, $p2];
 	}
 	
-	static public function authKey($key, $passhash){
+	static public function authKey($key, $pass){
 		list($p1,p2) = $this::parseKey($key);
-		return passkey_verify($passhash, $p2);
+		return passkey_verify($pass, $p2);
 	}
 }
 			
