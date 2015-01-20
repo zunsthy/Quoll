@@ -1,2 +1,5 @@
-fuel/app/logs/*/*/*
-fuel/app/cache/*/*
+config/*
+*~
+*.bak
+*.old
+*.bak.*
