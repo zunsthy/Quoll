@@ -3,3 +3,4 @@ config/*.php
 *.bak
 *.old
 *.bak.*
+ztest*

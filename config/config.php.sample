@@ -1,7 +1,0 @@
-<?php
-$SQL = array(
-	'host' => "localhost",
-	'user' => "username",
-	'pass' => "password",
-	'db' => "database",
-);
