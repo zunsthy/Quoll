@@ -1,5 +1,7 @@
 <?php 
 class Quoll {
+	static private $quoll = null;
+
 	static public $ds = DIRECTORY_SEPARATOR;
 	static public $rootpath;
 	
@@ -11,43 +13,43 @@ class Quoll {
 
 	private $DB;
 	private $CONFIG;
-	private $USER;
 	
-	function __construct(){
-		$this::init();
+	private function __construct(){
+		self::init();
 		if(PATH_SEPARATOR == ';')
 			$rootpath = dirname(__FILE__); // Windows NT
 		else 
 			$rootpath = realpath(dirname(__FILE__)); // *nix/Linux
+		// d(3);
 		// $this->ds = DIRECTORY_SEPARATOR;
-		$this->rootpath = $rootpath;
+		self::$rootpath = $rootpath;
 		// d($this->rootpath);
 		// d($this->dir_config);
 		// configuration
 		require_once('class/config.class.php');
-		// d($rootpath .$this::$ds .$this::$dir_config);
-		// d($this::$ds);
-		$CONFIG = new CONFIG($rootpath .$this::$ds .$this::$dir_config);
+		// d($rootpath .self::$ds .self::$dir_config);
+		// d(self::$ds);
+		$CONFIG = new CONFIG($rootpath .self::$ds .self::$dir_config);
 		if($CONFIG->e())
-			$this->quit(true);
+			self::quit(true);
 		$this->CONFIG = $CONFIG;
 		
 		// database
 		if(is_file("config/sql.php")){
 			require_once("config/sql.php");
 		} else
-			$this->quit(true);
+			self::quit(true);
 		require_once('class/db.class.php');
 		// print_r($SQL);
 		$DB = new DB($SQL);
 		// print_r($DB);
 		if($DB->connect_errno){
-			$this::quit('Error['.$DB->connect_errno.']: '.$DB->connect_error, true);
+			self::quit('Error['.$DB->connect_errno.']: '.$DB->connect_error, true);
 		}
 		$this->DB = $DB;
 	}
 	
-	function __get($name){
+	public function __get($name){
 		switch($name){
 		case "DB":
 		case "db":
@@ -58,14 +60,35 @@ class Quoll {
 		case "c":
 			return $this->CONFIG;
 			break;
-		case "U":
-		case "u":
-		case "USER":
-			return $this->USER;
-			break;
+		// case "U":
+		// case "u":
+		// case "USER":
+			// return $this->USER;
+			// break;
 		default:
 			return null;
 		}
+	}
+	
+	/**
+	 * @brief prevent cloning instance
+	 */
+	/*
+	public function __clone(){
+		self::quit("Invalid");
+	}
+	*/
+	
+	/**
+	 * @brief static factory method
+	 * @return the instance 
+	 */
+	static public function getQuoll(){
+		// d(1);
+		if(self::$quoll == null){
+			self::$quoll = new Quoll();
+		}
+		return self::$quoll;
 	}
 	
 	/**
@@ -115,20 +138,11 @@ class Quoll {
 	 */
 	public function esc($str){
 		return $this->DB->escape($str);
-	}
-	
-	/**
-	 * @brief
-	 */
-	public function initUser(){
-		require_once("class/user.class.php");
-		$this->USER = new USER();
-	}
-	
+	}	
 }
 
 // require basic classes
-
+require_once("class/user.class.php");
 
 // initialization
-$Q = new Quoll();
+$Q = Quoll::getQuoll();
