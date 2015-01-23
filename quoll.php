@@ -63,8 +63,8 @@ class Quoll {
 	
 	/**
 	 * @brief output error info and terminal the process
-	 * @param stat error status
-	 * @param msg error brief information
+	 * @param $stat error status
+	 * @param $msg error brief information
 	 * @note 
 	 *  if 'stat'/'msg' set null or true, it works.
 	 */
@@ -82,8 +82,8 @@ class Quoll {
 	}
 	
 	/**
-	 * @brief 
-	 * @param str query string
+	 * @brief database query and die if something wrong
+	 * @param $str query string
 	 * @return the query result
 	 */
 	public function query($str){
@@ -96,24 +96,15 @@ class Quoll {
 	}
 	
 	/**
-	 * @brief escape string
-	 * @param str 
-	 * @param more
-	 * @param strict 
-	 * @return the string after escape
+	 * @param $str the string to escape
 	 */
-	public function esc($str, $more = false, $strict = true){
-		// Stripslashes
-		if(get_magic_quotes_gpc()){
-			$str = stripslashes($str);
-		}
-		// Quote if not a number or a numeric string
-		if($strict || !is_numeric($str)){
-			$str = "'" .$this->DB->real_escape_string($str) ."'";
-		} 
-		// avoid "LIKE '%xxx_'"
-		if($more)
-			$str = addcslashes($str, '%_');
-		return $str;
+	public function esc($str){
+		return $this->DB->escape($str);
 	}
 }
+
+// require basic classes
+require_once("class/user.class.php");
+
+// initialization
+$Q = new Quoll();
