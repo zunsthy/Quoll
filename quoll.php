@@ -11,8 +11,10 @@ class Quoll {
 
 	private $DB;
 	private $CONFIG;
+	private $USER;
 	
 	function __construct(){
+		$this::init();
 		if(PATH_SEPARATOR == ';')
 			$rootpath = dirname(__FILE__); // Windows NT
 		else 
@@ -56,6 +58,11 @@ class Quoll {
 		case "c":
 			return $this->CONFIG;
 			break;
+		case "U":
+		case "u":
+		case "USER":
+			return $this->USER;
+			break;
 		default:
 			return null;
 		}
@@ -82,6 +89,14 @@ class Quoll {
 	}
 	
 	/**
+	 * @brief prepare the condition
+	 */
+	static private function init(){
+		
+	
+	}
+	
+	/**
 	 * @brief database query and die if something wrong
 	 * @param $str query string
 	 * @return the query result
@@ -101,10 +116,19 @@ class Quoll {
 	public function esc($str){
 		return $this->DB->escape($str);
 	}
+	
+	/**
+	 * @brief
+	 */
+	public function initUser(){
+		require_once("class/user.class.php");
+		$this->USER = new USER();
+	}
+	
 }
 
 // require basic classes
-require_once("class/user.class.php");
+
 
 // initialization
 $Q = new Quoll();

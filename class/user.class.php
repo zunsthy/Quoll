@@ -9,15 +9,21 @@ class USER {
 	private $updateset = array();
 	
 	function __construct(){
+		global $Q;
 		$ret = $this::authKey($_COOKIE['QSESSION']);
+		// d($ret);
 		if(!empty($ret)){
 			$id = 0 + $ret[0];
 			$ip = $ret[1];
+			// d($id);
 			$res = $Q->query("SELECT * FROM users WHERE id = ". $Q->esc($id));
 			if($row = $res->fetch_assoc()){
 				$this->user = $row;
 			}
+		} else {
+			$Q::quit("error", "re-login");
 		}
+		// unreachable
 		return;
 	}
 	
@@ -32,8 +38,11 @@ class USER {
 
 	static public function authKey($key){
 session_start();
+		// print_r($_SESSION);d($key);
 		if(isset($key) && $key != ""){
+			// d(4);
 			if($_SESSION['key'] == $key){
+				// d(5);
 				return array($_SESSION['id'], $_SESSION['ip']);
 			}
 		}
