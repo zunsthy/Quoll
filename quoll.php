@@ -73,11 +73,9 @@ class Quoll {
 	/**
 	 * @brief prevent cloning instance
 	 */
-	/*
 	public function __clone(){
 		self::quit("Invalid");
 	}
-	*/
 	
 	/**
 	 * @brief static factory method
