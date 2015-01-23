@@ -9,13 +9,14 @@ class DB extends mysqli {
 			$pass = "";
 			$db = "quoll";
 		} else {
-			$host = $config[host];
-			$port = $config[port];
-			$user = $config[user];
-			$pass = $config[pass];
-			$db = $config[db];
+			$host = $config['host'];
+			$port = $config['port'];
+			$user = $config['user'];
+			$pass = $config['pass'];
+			$db = $config['db'];
 		}
-	
+		// d($config);
+		// d([$host, $user, $pass, $db, $port]);
 		parent::__construct($host, $user, $pass, $db, $port);
 	}
 	
@@ -26,7 +27,7 @@ class DB extends mysqli {
 	 * @param $strict 
 	 * @return the string after escape
 	 */
-	public function escape($str, $more = false, $strict = true){
+	public function esc($str, $more = false, $strict = true){
 		// Stripslashes
 		if(get_magic_quotes_gpc()){
 			$str = stripslashes($str);
@@ -39,5 +40,28 @@ class DB extends mysqli {
 		if($more)
 			$str = addcslashes($str, '%_');
 		return $str;
+	}
+	
+	/**
+	 * @brief database query and die if something wrong
+	 * @param $str query string
+	 * @return the query result
+	 */
+	public function q($str){
+		// TODO : 'mysqli_stmt' replaces it
+		// d($str);
+		$ret = $this->query($str);
+		// d(3);
+		// print_r($this);
+		// print_r($ret);
+		// print($this->error);
+		// d($ret ? "!" : "0");
+		if($this->error){
+			// d(5);
+			Q::quit('Error['.$this->errno.']: '.$this->error, true);
+		}
+		// d(4);
+		// d($ret);
+		return $ret;
 	}
 }
