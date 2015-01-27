@@ -39,7 +39,7 @@ Q::init();
 // d(3);
 // ---------------- COMMON CLASSES ----------------
 include_once('class/user.class.php');
-// include_once('class/util.class.php');
+include_once('class/util.class.php');
 // ---------------- COMMON CLASSES ----------------
 
 
