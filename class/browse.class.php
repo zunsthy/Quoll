@@ -14,6 +14,20 @@ class BROWSE {
 		
 	}
 	
+	public function __get($name){
+		switch($name){
+			case 'url':
+			case 'URL':
+				return $this->url;
+				break;
+			case 'ret':
+				return $this->ret;
+				break;
+			default :
+				null;
+		}
+	}	
+	
 	/**
 	 * @brief analysis the REQUEST
 	 */
@@ -306,22 +320,5 @@ class BROWSE {
 			;
 		return $this->ret;
 	}
-	
-	/**
-	 * @brief 
-	 * @return 
-	 */
-	public function __get($name){
-		switch($name){
-			case 'url':
-			case 'URL':
-				return $this->url;
-				break;
-			case 'ret':
-				return $this->ret;
-				break;
-			default :
-				null;
-		}
-	}
+
 }
