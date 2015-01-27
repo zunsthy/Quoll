@@ -1,13 +1,12 @@
 <?php
-include_once("quoll.php");
-include_once("class/user.class.php");
+require_once("start.php");
 
 if(isset($_REQUEST['u']) && isset($_REQUEST['p'])
 	&& $_REQUEST['u'] != "" && $_REQUEST['p'] != ""){
 		// print_r($_REQUEST);die;
 		$ret = USER::authLogin($_REQUEST['u'], $_REQUEST['p']);
 		if($ret === false){
-			$Q::quit("error", "login failure");
+			Q::quit("error", "login failure");
 		}
 		// print_r($ret);die;
 		USER::createKey($ret[0], $ret[1], $ret[2]);
@@ -18,9 +17,9 @@ if(isset($_REQUEST['u']) && isset($_REQUEST['p'])
 		// die;	
 		setcookie("QSESSION", $_SESSION['key'], 0x7fffffff);
 	} else {
-		$Q::quit("success", "");
+		Q::quit("success", "");
 	}
 } else {
-	$Q::quit("");
+	Q::quit("");
 }
 

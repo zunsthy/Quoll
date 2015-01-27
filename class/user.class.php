@@ -8,26 +8,25 @@ class USER {
 	private $user = null;
 	private $updateset = array();
 	
-	function __construct(){
-		global $Q;
+	public function __construct(){
 		$ret = $this::authKey($_COOKIE['QSESSION']);
 		// d($ret);
 		if(!empty($ret)){
 			$id = 0 + $ret[0];
 			$ip = $ret[1];
 			// d($id);
-			$res = $Q->query("SELECT * FROM users WHERE id = ". $Q->esc($id));
+			$res = Q::$DB->query("SELECT * FROM users WHERE id = ". Q::$DB->esc($id));
 			if($row = $res->fetch_assoc()){
 				$this->user = $row;
 			}
 		} else {
-			$Q::quit("error", "re-login");
+			Q::quit("error", "re-login");
 		}
 		// unreachable
 		return;
 	}
 	
-	function __get($name){
+	public function __get($name){
 		if(isset($this->user[$name]))
 			return $name;
 		elseif($name == 'u'){
@@ -99,18 +98,18 @@ session_start();
 		// else die("n");
 		// $p = strpos($username, "@");
 		// die(strpos($username, '@'));
-		global $Q;
+		// global $Q;
 		// print(isset($Q) === false? "Zzz": "00");
 		// die;
 		// print_r($Q);die;
 		// d($Q->esc($username));
 		if(strpos($username, '@') !== false){
-			$sql = " email = " .$Q->esc($username);
+			$sql = " email = " .Q::$DB->esc($username);
 		} else {
-			$sql = " username = " .$Q->esc($username);
+			$sql = " username = " .Q::$DB->esc($username);
 		}
 		// d($sql);
-		$res = $Q->query("SELECT * FROM users WHERE $sql");
+		$res = Q::$DB->query("SELECT * FROM users WHERE $sql");
 		if($res->num_rows == 1){
 			$row = $res->fetch_assoc();
 			$salt = $row['secret'];

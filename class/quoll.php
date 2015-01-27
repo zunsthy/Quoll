@@ -10,6 +10,7 @@ class Q {
 	static public $DB;
 	static public $CONFIG;
 	// static public $CACHE;
+	// static public $LOG;
 	
 	/**
 	 * @brief prepare the condition
@@ -50,4 +51,14 @@ class Q {
 		return;
 	}
 
+	static public function replaceControlCharacters($str){
+		static $control =
+		[	"\000", "\001", "\002", "\003", "\004", "\005", "\006", "\007",
+			"\010", "\011", "\012", "\013", "\014", "\015", "\016", "\017",
+			"\020", "\021", "\022", "\023", "\024", "\025", "\026", "\027",
+			"\030", "\031", "\032", "\033", "\034", "\035", "\036", "\037",
+			"\177"
+		];
+		$str = str_replace($control, " ", $str);
+	}
 }
