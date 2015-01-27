@@ -1,6 +1,6 @@
 <?php
 class TORRENT {
-	private $detail;
+	private $details;
 	private $id;
 	
 	public function __construct($id){
