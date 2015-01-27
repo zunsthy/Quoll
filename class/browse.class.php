@@ -2,11 +2,15 @@
 class BROWSE {
 	private $parameter = array();
 	private $wherea = array();
+
+	private $ret = null;
+	private $sql = "";
+	private $url = "";
 	
 	function __construct(){
 		self::init();
-		print_r($this->parameter);
-		print_r($this->wherea);
+		// print_r($this->parameter);
+		// print_r($this->wherea);
 		
 	}
 	
@@ -24,6 +28,8 @@ class BROWSE {
 		$this::getBanned();
 		$this::getAll();
 		$this::getMarked();
+		
+		$this::onEnd();
 	}
 	
 	/**
@@ -265,4 +271,57 @@ class BROWSE {
 		return;
 	}
 	
+	/**
+	 * @brief construct the sql query and url link
+	 */
+	private function onEnd(){
+		$select = "torrents.id, torrents.sp_state, torrents.promotion_time_type, torrents.promotion_until, 
+		torrents.banned, torrents.picktype, torrents.pos_state, torrents.category, torrents.source, 
+		torrents.leechers, torrents.seeders, torrents.name, torrents.small_descr, torrents.times_completed, 
+		torrents.size, torrents.added, torrents.comments, torrents.anonymous, torrents.owner, torrents.url, 
+		users.username, users.class";
+		$from = "torrents LEFT JOIN users ON torrents.owner = users.id ";
+		// d($this->wherea);
+		$where = implode(" AND ", $this->wherea);
+		// d("SELECT $select FROM $from WHERE $where");
+		$res = Q::$DB->q("SELECT count(*) FROM $from WHERE $where");
+		$count = $res->num_rows;
+		if($count == 0)
+			return;
+		
+		list($pages, $page, $limit) = UTILITY::page(100, $count);
+		$this->sql = "SELECT $select FROM $from WHERE $where $limit";
+		$this->url = implode('&', $this->parameter);
+		// d($this->ret);
+		// d($this->url);
+	}
+	
+	/**
+	 * @brief
+	 * @return 
+	 */
+	public function output(){
+		$res = Q::$DB->q($this->sql);
+		for($this->ret = array(); $row = $res->fetch_assoc(); $this->ret[] = $row)
+			;
+		return $this->ret;
+	}
+	
+	/**
+	 * @brief 
+	 * @return 
+	 */
+	public function __get($name){
+		switch($name){
+			case 'url':
+			case 'URL':
+				return $this->url;
+				break;
+			case 'ret':
+				return $this->ret;
+				break;
+			default :
+				null;
+		}
+	}
 }
