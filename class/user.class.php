@@ -114,7 +114,7 @@ session_start();
 			$row = $res->fetch_assoc();
 			$salt = $row['secret'];
 			if($row['passhash'] == md5($salt.$password.$salt))
-				return [ $row['id'], $row['name'], $row['passhash'],
+				return [ $row['id'], $row['username'], $row['passhash'],
 				         $row['enabled'], $row['status'] ];
 			else 
 				return false;
