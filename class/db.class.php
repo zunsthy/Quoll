@@ -69,7 +69,7 @@ class DB extends mysqli {
 	 * @brief count the number of result
 	 * @param str the query string or the half ("FROM ...")
 	 * @return the number of result rows
-	 * @note this is an unsignificant function! don't call it!
+	 * @note this is an insignificant function! don't call it!
 	 */
 	public function num($str){
 		if(strpos($str, "SELECT") === false){
