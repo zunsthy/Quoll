@@ -64,4 +64,26 @@ class DB extends mysqli {
 		// d($ret);
 		return $ret;
 	}
+	
+	/**
+	 * @brief count the number of result
+	 * @param str the query string or the half ("FROM ...")
+	 * @return the number of result rows
+	 * @note this is an unsignificant function! don't call it!
+	 */
+	public function num($str){
+		if(strpos($str, "SELECT") === false){
+			$res = $this->q("SELECT count(*) $str");
+			if($res->num_rows == 0)
+				return 0;
+			else {
+				for($cnt = 0; $row = $res->fetch_row(); $cnt += 0 + $row[0]);
+				return $cnt;
+			}
+		} else {
+			$res = $this->q($str);
+			return $res->num_rows;
+		}
+	}	
+			
 }

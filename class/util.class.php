@@ -11,8 +11,8 @@ class UTILITY {
 			$pagedefault = 0;
 		}
 		
-		if(isset($_GET[$pagename])){
-			$page = 0 + $_GET[$pagename];
+		if(isset($_REQUEST[$pagename])){
+			$page = 0 + $_REQUEST[$pagename];
 			if($page < 0)
 				$page = 0;
 			elseif($page > $pages - 1)

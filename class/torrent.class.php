@@ -45,20 +45,74 @@ class TORRENT {
 			case "c":
 				return getCompletes();
 				break;
+			case "files":
+			case "filelist":
+			case "f":
+				return getFiles();
+				break;
 			default: 
 				return null;
 		}
 	}
 	
+	private function getFiles(){
+		if($this->id <= 0)
+			return array();
+		$sql = "FROM files WHERE torrent = " .Q::$DB->esc($this->id) ." ORDER BY filename";
+		$res = Q::$DB->q("SELECT count(*) $sql");
+		$cnt = 0 + ($res->fetch_row())[0];
+		list($ps, $p, $limit) = UTILITY::page(50, $cnt);
+		$res = Q::$DB->q("SELECT filename, size $sql $limit");
+		for($ret = array(); $row = $res->fetch_row(); $ret[] = $row)
+			;
+		return $ret;
+	}
+	
 	private function getSeeders(){
-		return array();
+		if($this->id <= 0)
+			return array();
+		$id = 0 + $this->id;
+		$sql = "SELECT peers.finishedat, UNIX_TIMESTAMP(peers.started) AS st, peers.agent, peers.peer_id,"
+			." peers.uploaded, peers.downloaded, peers.downloadoffset, peers.uploadoffset,"
+			." peers.userid, users.username, users.class"
+			." FROM peers LEFT JOIN users ON users.id = peers.userid"
+			." WHERE torrent = '$id' AND seeder = 'yes'";
+		$res = Q::$DB->q($sql);
+		for($ret = array(); $row = $res->fetch_assoc(); $ret[] = $row)
+			;
+		return $ret;
 	}
 	
 	private function getLeechers(){
-		return array();
+		if($this->id <= 0)
+			return array();
+		$id = 0 + $this->id;
+		$sql = "SELECT UNIX_TIMESTAMP(peers.started) AS st, peers.agent, peers.peer_id,"
+			." peers.uploaded, peers.downloaded, peers.downloadoffset, peers.uploadoffset,"
+			." peers.userid, users.username, users.class"
+			." FROM peers LEFT JOIN users ON users.id = peers.userid"
+			." WHERE torrent = '$id' AND seeder = 'no'";
+		$res = Q::$DB->q($sql);
+		for($ret = array(); $row = $res->fetch_assoc(); $ret[] = $row)
+			;
+		return $ret;
 	}
-	
+
 	private function getCompletes(){
-		return array();
+		if($this->id <= 0)
+			return array();
+		$where = "WHERE finished='yes' AND torrentid = " .Q::$DB->esc($this->id) ." ORDER BY completedat DESC";
+		$res = Q::$DB->q("SELECT count(*) FROM snatched $where");
+		$cnt = 0 + ($res->fetch_row())[0];
+		list($ps, $p, $limit) = UTILITY::page(50, $cnt);
+		$sql = "SELECT snatched.uploaded, snatched.downloaded,"
+			." snatched.completedat, snatched.seedtime,"
+			." users.id, user.class, user.username"
+			." FROM snatched LEFT JOIN users ON users.id = snatched.userid"
+			." $where $limit";
+		$res = Q::$DB->q($sql);
+		for($ret = array(); $row = $res->fetch_row(); $ret[] = $row)
+			;
+		return $ret;
 	}
 }
