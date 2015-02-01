@@ -1,6 +1,6 @@
 <?php
 class UTILITY {
-	
+
 	static public function page($rpp, $count, $opts = [], $pagename = 'page'){
 		$pages = ceil($count / $rpp);
 		if(isset($opts['lastpagedefault']) && $opts['lastpagedeault']){
@@ -24,4 +24,22 @@ class UTILITY {
 		return array($pages, $page, " LIMIT $start,$rpp");
 	}
 	
+	/**
+	 * @brief 
+	 * @param
+	 * @return (Array)query result
+	 */
+	static public function query($field, $table, $where, $orderby, $per){
+		$res = Q::$DB->q("SELECT COUNT(*) FROM $table " .$where);
+		$row = $res->fetch_row();
+		$count = 0 + $row[0];
+		if($count == 0)
+			return array();
+		// d($count);
+		list($ps, $p, $limit) = self::page($per, $count);
+		$res = Q::$DB->q("SELECT $field FROM $table $where ORDER BY $orderby $limit");
+		for($ret = []; $row = $res->fetch_assoc(); $ret[] = $row)
+			;
+		return [ $ret, $ps, $p ];
+	}
 }

@@ -6,6 +6,7 @@ class BROWSE {
 	private $ret = null;
 	private $sql = "";
 	private $url = "";
+	private $pages = 0;
 	
 	function __construct(){
 		self::init();
@@ -22,6 +23,11 @@ class BROWSE {
 				break;
 			case 'ret':
 				return $this->ret;
+				break;
+			case 'page':
+			case 'pages':
+			case 'p':
+				return $this->pages;
 				break;
 			default :
 				null;
@@ -42,6 +48,7 @@ class BROWSE {
 		$this::getBanned();
 		$this::getAll();
 		$this::getMarked();
+		// $this::getSort();
 		
 		$this::onEnd();
 	}
@@ -286,6 +293,13 @@ class BROWSE {
 	}
 	
 	/**
+	 * @brief 
+	 */
+	private function getSort(){
+		return;
+	}
+	
+	/**
 	 * @brief construct the sql query and url link
 	 */
 	private function onEnd(){
@@ -306,6 +320,8 @@ class BROWSE {
 		list($pages, $page, $limit) = UTILITY::page(100, $count);
 		$this->sql = "SELECT $select FROM $from WHERE $where $limit";
 		$this->url = implode('&', $this->parameter);
+		
+		$this->pages = $pages;
 		// d($this->ret);
 		// d($this->url);
 	}
