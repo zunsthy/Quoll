@@ -37,9 +37,27 @@ class UTILITY {
 			return array();
 		// d($count);
 		list($ps, $p, $limit) = self::page($per, $count);
+		// d("SELECT $field FROM $table $where ORDER BY $orderby $limit");
 		$res = Q::$DB->q("SELECT $field FROM $table $where ORDER BY $orderby $limit");
 		for($ret = []; $row = $res->fetch_assoc(); $ret[] = $row)
 			;
-		return [ $ret, $ps, $p ];
+		return [ 'data' => $ret, 'pages' => $ps, 'at' => $p ];
+	}
+	
+	/**
+	 * @brief
+	 * @param $id 
+	 * @param $die if invalid, TRUE means die
+	 * @return the positive value
+	 * @note 
+	 */
+	static public function parseNumber($id, $die = true){
+		$n = 0 + intval($id);
+		if($n < 0 && $die)
+			Q::quit("error", "Invalid ID");
+		elseif($n < 0 && !$die)
+			return 0;
+		else
+			return $n;
 	}
 }
