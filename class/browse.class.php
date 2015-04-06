@@ -1,4 +1,5 @@
 <?php
+// TODO: "ORDER BY"
 class BROWSE {
 	private $parameter = array();
 	private $wherea = array();
@@ -258,7 +259,9 @@ class BROWSE {
 	 * @brief 
 	 */
 	private function getBanned(){
-		if(!isset($_REQUEST['banned']) && !$_REQUEST['banned'])
+		if(!isset($_REQUEST['banned']))
+			return;
+		if(!$_REQUEST['banned'])
 			return;
 		$this->wherea[] = "banned = 'yes'";
 		$this->parameter[] = "banned=1";
@@ -309,16 +312,22 @@ class BROWSE {
 		torrents.size, torrents.added, torrents.comments, torrents.anonymous, torrents.owner, torrents.url, 
 		users.username, users.class";
 		$from = "torrents LEFT JOIN users ON torrents.owner = users.id ";
-		// d($this->wherea);
+		//d($this->wherea);
 		$where = implode(" AND ", $this->wherea);
 		// d("SELECT $select FROM $from WHERE $where");
-		$res = Q::$DB->q("SELECT count(*) FROM $from WHERE $where");
+		if($where)
+			$res = Q::$DB->q("SELECT count(*) FROM $from WHERE $where");
+		else
+			$res = Q::$DB->q("SELECT count(*) FROM $from");
 		$count = $res->num_rows;
 		if($count == 0)
 			return;
 		
 		list($pages, $page, $limit) = UTILITY::page(100, $count);
-		$this->sql = "SELECT $select FROM $from WHERE $where $limit";
+		if($where)
+			$this->sql = "SELECT $select FROM $from WHERE $where $limit";
+		else
+			$this->sql = "SELECT $select FROM $from $limit";
 		$this->url = implode('&', $this->parameter);
 		
 		$this->pages = $pages;

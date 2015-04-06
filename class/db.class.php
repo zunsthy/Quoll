@@ -18,6 +18,7 @@ class DB extends mysqli {
 		// d($config);
 		// d([$host, $user, $pass, $db, $port]);
 		parent::__construct($host, $user, $pass, $db, $port);
+		self::set_charset('utf8');
 	}
 	
 	/**
@@ -67,23 +68,29 @@ class DB extends mysqli {
 	
 	/**
 	 * @brief count the number of result
-	 * @param str the query string or the half ("FROM ...")
+	 * @param str the query string
 	 * @return the number of result rows
 	 * @note this is an insignificant function! don't call it!
 	 */
 	public function num($str){
-		if(strpos($str, "SELECT") === false){
-			$res = $this->q("SELECT count(*) $str");
-			if($res->num_rows == 0)
-				return 0;
-			else {
-				for($cnt = 0; $row = $res->fetch_row(); $cnt += 0 + $row[0]);
-				return $cnt;
-			}
-		} else {
-			$res = $this->q($str);
-			return $res->num_rows;
-		}
+		$res = $this->q($str);
+		return $res->num_rows;
 	}	
-			
+
+	/**
+	 * @brief query result from result
+	 * @param $str the query string
+	 * @param $field 
+	 * @note 
+	 */
+	public function res($str, $field = ""){
+		$res = $this->q($str);
+		$row = $res->fetch_assoc();
+		if($field == "")
+			return $row;
+		elseif(isset($row[$field]))
+			return $row;
+		else
+			return $row;
+	}
 }

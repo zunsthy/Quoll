@@ -2,8 +2,8 @@
 class CONFIG {
 	private $error = false;	
 
-	static private $SITE = array();
-	static private $SQL = array();
+	private $SITE; 	// if static, ...
+	private $SQL;
 	
 	function __construct($dir = ""){
 		global $ds;

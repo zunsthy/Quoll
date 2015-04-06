@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta content="text/html" charset="UTF-8" http-equiv="Content-Type"></meta>
+	<title>放送时间表::清影PT</title>
+	<meta name="description" content="清影PT-分享精彩,其乐无穷"></meta>
+	<meta name="keywords" content="清影PT 放送时间表"></meta>
+	<link type="text/css" href="styles/calendar/calendar.css" rel="stylesheet"></link>
+	<script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+<header>
+	<div class="logo">
+		<img src="styles/calendar/logo-black.png" alt="清影PT">
+	</div>
+	<div class="top">分享精彩,其乐无穷</div>
+</header>
+<nav>
+	<ul class="menu">
+		<li class="menu"><a class="link" href="/">首页</a></li>
+		<li class="menu"><a class="link" href="forums.php">论坛</a></li>
+		<li class="menu"><a class="link" href="torrents.php?cat=401">电影</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=57">合集</a></li>
+				<li class="menu_child"><a href="torrents.php?source=60">原盘</a></li>
+				<li class="menu_child"><a href="torrents.php?source=3">1080P</a></li>
+				<li class="menu_child"><a href="torrents.php?source=6">720P</a></li>
+				<li class="menu_child"><a href="torrents.php?source=5">480P</a></li>
+				<li class="menu_child"><a href="torrents.php?source=7">其他</a></li>
+			</ul>
+		</li>
+		<li class="menu"><a class="link" href="torrents.php?cat=402">剧集</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=23">大陆</a></li>
+				<li class="menu_child"><a href="torrents.php?source=24">港台</a></li>
+				<li class="menu_child"><a href="torrents.php?source=25">欧美</a></li>
+				<li class="menu_child"><a href="torrents.php?source=26">日韩</a></li>
+				<li class="menu_child"><a href="torrents.php?source=28">完结</a></li>
+			</ul>
+		</li>
+		<li class="menu"><a class="link" href="torrents.php?cat=405">动漫</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=45">连载</a></li>
+				<li class="menu_child"><a href="torrents.php?source=51">完结</a></li>
+				<li class="menu_child"><a href="torrents.php?source=46">漫画</a></li>
+				<li class="menu_child"><a href="torrents.php?source=52">音乐</a></li>
+				<li class="menu_child"><a href="torrents.php?source=84">OVA</a></li>
+				<li class="menu_child"><a href="torrents.php?source=47">其他</a></li>
+			</ul>
+		</li>
+		<li class="menu"><a class="link" href="torrents.php?cat=404">记录</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=61">自然</a></li>
+				<li class="menu_child"><a href="torrents.php?source=64">科技</a></li>
+				<li class="menu_child"><a href="torrents.php?source=63">历史</a></li>
+				<li class="menu_child"><a href="torrents.php?source=62">人文</a></li>
+				<li class="menu_child"><a href="torrents.php?source=34">其他</a></li>
+			</ul>
+		</li>
+		<li class="menu"><a class="link" href="torrents.php?cat=403">综艺</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=68">娱乐</a></li>
+				<li class="menu_child"><a href="torrents.php?source=69">访谈</a></li>
+				<li class="menu_child"><a href="torrents.php?source=70">比赛</a></li>
+				<li class="menu_child"><a href="torrents.php?source=18">其他</a></li>
+			</ul>
+		</li>
+		<li class="menu"><a class="link" href="torrents.php?cat=407">体育</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=20">篮球</a></li>
+				<li class="menu_child"><a href="torrents.php?source=21">足球</a></li>
+				<li class="menu_child"><a href="torrents.php?source=22">其他</a></li>
+				<li class="menu_child"><a href="torrents.php?source=65">教学</a></li>
+			</ul>
+		</li>
+		<li class="menu"><a class="link" href="torrents.php?cat=406">音乐</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=2">华语</a></li>
+				<li class="menu_child"><a href="torrents.php?source=1">欧美</a></li>
+				<li class="menu_child"><a href="torrents.php?source=8">日韩</a></li>
+				<li class="menu_child"><a href="torrents.php?source=9">古典</a></li>
+				<li class="menu_child"><a href="torrents.php?source=76">新世纪</a></li>
+				<li class="menu_child"><a href="torrents.php?source=17">演唱会</a></li>
+				<li class="menu_child"><a href="torrents.php?source=16">M V </a></li>
+				<li class="menu_child"><a href="torrents.php?source=10">其他</a></li>
+			</ul>
+		</li>
+		<li class="menu"><a class="link" href="torrents.php?cat=413">软件</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=42">Win</a></li>
+				<li class="menu_child"><a href="torrents.php?source=50">*nix</a></li>
+				<li class="menu_child"><a href="torrents.php?source=43">手机</a></li>
+				<li class="menu_child"><a href="torrents.php?source=44">其他</a></li>
+			</ul>
+		</li>
+		<li class="menu"><a class="link" href="torrents.php?cat=410">游戏</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=11">电脑</a></li>
+				<li class="menu_child"><a href="torrents.php?source=12">主机</a></li>
+				<li class="menu_child"><a href="torrents.php?source=14">手机</a></li>
+				<li class="menu_child"><a href="torrents.php?source=13">其他</a></li>
+			</ul>
+		</li>
+		<li class="menu"><a class="link" href="torrents.php?cat=411">学习</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=29">考研</a></li>
+				<li class="menu_child"><a href="torrents.php?source=58">外语</a></li>
+				<li class="menu_child"><a href="torrents.php?source=30">专业</a></li>
+				<li class="menu_child"><a href="torrents.php?source=31">讲座</a></li>
+				<li class="menu_child"><a href="torrents.php?source=66">文选</a></li>
+				<li class="menu_child"><a href="torrents.php?source=67">书刊</a></li>
+				<li class="menu_child"><a href="torrents.php?source=32">其他</a></li>
+			</ul>
+		</li>
+		<li class="menu"><a class="link" href="torrents.php?cat=409">其他</a>
+			<ul class="menu_child" style="display:none;">
+				<li class="menu_child"><a href="torrents.php?source=77">哈工大</a></li>
+				<li class="menu_child"><a href="torrents.php?cat=409">其他</a></li>
+			</ul>
+		</li>
+	</ul>
+	<div id="searchboxplus">
+	<form id="searchboxplus" class="clearfix" action="torrents.php?" method="get">
+		<input id="searchboxplus_search" type="text" placeholder="搜..." name="search"></input>
+		<input id="searchboxplus_incldead" type="text" style="display:none;" value="0" name="incldead"></input>
+		<input id="searchboxplus_submit" type="submit" style="display:none;"></input>
+	</form>
+	</div>
+</nav>
+<main>
+	<div class="main-wrapper">
+		<div class="calendar">
+			<div class="date">
+				<div class="date_bar">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+				<div class="date_previous"></div>
+				<div class="date_next"></div>
+			</div>
+			<div class="for_mod" style="display:none;">
+				<div id="date_enter" contentEditable="true" class="for_mod"></div>
+				<div id="create_new" class="for_mod">新增</div>
+			</div>
+		</div>
+		<div id="list" class="list">
+			<ul class="list">
+				<li id="yesterday" class="list">
+				<div class="side_l">
+					<p class="ico_yd"></p>
+					<p class="text">前一天</p>
+				</div>
+				<div class="side_r"></div>
+				</li>
+				<li id="today" class="list">
+				<div class="side_l">
+					<p class="ico_yd"></p>
+					<p class="text">这一天</p>
+				</div>
+				<div class="side_r"></div>
+				</li>
+				<li id="tomorrow" class="list">
+				<div class="side_l">
+					<p class="ico_yd"></p>
+					<p class="text">后一天</p>
+				</div>
+				<div class="side_r"></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="main-bottom">
+		<!--
+		<form id="create_new" class="for_mod" style="display:none;">
+			<div>name:<input type="text" name="name" id="mod_new_name"></input></div>
+			<div>type:<input type="text" name="type" id="mod_new_type" placeholder="0 动漫 1 剧集 2 电影 ..."></input></div>
+			<div>keywords:<input type="text" name="keywords" id="mod_new_keywords"></input></div>
+			<div>cover:<input type="text" name="cover" id="mod_new_cover"></input></div>
+			<div>time:<input type="text" name="time" id="mod_new_time" placeholder="2015-04-01 00:00:00"></input></div>
+			<div>eposide:<input type="text" name="ep" id="mod_new_ep"></input></div>
+			<div>status:<input type="text" name="status" id="mod_new_status" placeholder="air/fin/sp/ova/movie/..."></input></div>
+		</form>
+		<div id="edit" class="for_mod" style="display:none;">
+			<div id="edit_action" style="display:none;"></div>
+			<div id="edit_id">
+				<div contenteditable="true" id="mod_id"></div><div>id</div><span class="note">如果id存在则为修改，置空为创建</span><br />
+				<div contenteditable="true" id="mod_ep"></div><div>ep</div><span class="note">如果集数存在则为修改，否则为创建</span><br />
+			</div>
+			<div id="edit_calendar">
+				<div contenteditable="true" id="mod_name"></div><div>name</div><br />
+				<div contenteditable="true" id="mod_keywords"></div><div>keywords</div><br />
+				<div contenteditable="true" id="mod_cover"></div><div>cover</div><br />
+				<div contenteditable="true" id="mod_type"></div><div>type</div><span class="note">0 动漫 1 剧集 2 电影 ...</span><br />
+			</div>
+			<div id="edit_item">
+				<div contenteditable="true" id="mod_status"></div><div>status</div><span class="note">(air/fin/sp/ova/movie)</span><br />
+				<div contenteditable="true" id="mod_time"></div><div>time</div><span class="note">(YYYY-mm-dd HH:ii:ss)</span><br />
+			</div>
+			<div id="mod_submit" style="display:none;">提交</div>
+		</div>
+		-->
+		<div id="edit" class="for_mod" style="display:none;">
+			<div id="edit_action" style="display:none;"></div>
+			<div id="edit_id">
+				<input id="mod_id"></input><div>id</div><span class="note">如果id存在则为修改，置空为创建</span><br />
+				<input id="mod_ep"></input><div>ep</div><!--<span class="note">如果集数存在则为修改，否则为创建</span><br />-->
+			</div>
+			<div id="edit_calendar">
+				<input id="mod_name"></input><div>name</div><br />
+				<input id="mod_keywords"></input><div>keywords</div><br />
+				<input id="mod_cover"></input><div>cover</div><br />
+				<input id="mod_type"></input><div>type</div><span class="note">0 动漫 1 剧集 2 电影 ...</span><br />
+			</div>
+			<div id="edit_item">
+				<input id="mod_status"></input><div>status</div><span class="note">(air/fin/sp/ova/movie)</span><br />
+				<input id="mod_time"></input><div>time</div><span class="note">(YYYY-mm-dd HH:ii:ss)</span><br />
+			</div>
+			<div id="mod_submit" style="display:none;">提交</div>
+		</div>
+	</div>
+</main>
+<footer>
+<div id="footer">
+	<div class="foot_l">
+		<ul>
+			<li>
+				<a href="contactstaff.php">加入我们</a><br />
+				<a href="donate.php">支持我们</a><br />
+				<a href="forums.php?action=newtopic&forumid=2">建议反馈</a><br />
+			</li>
+			<li>
+				<a href="/">友情链接</a><br />
+				<a href="useragreement.php">用户协定</a><br />
+				<a href="aboutnexus.php">项目说明</a><br />
+			</li>
+			<li>
+				<a href="http://weibo.com/u/3806593674">官方微博</a><br />
+				<a href="usercp.php?action=other">微信平台</a><br />
+				<a href="http://tieba.baidu.com/f?ie=utf-8&kw=%E6%B8%85%E5%BD%B1pt">百度贴吧</a><br />
+			</li>
+		</ul>
+	</div>
+	<div class="foot_r" style="display:none;">
+		<div id="address">
+			<span id="address_l">哈尔滨市南岗区西大直街92号</span>
+			<span id="address_r">哈尔滨工业大学网络与信息中心</span>
+		</div>
+		<div id="icp">
+			<span id="icp_l">互联网备案</span>
+			<span id="icp_r">黑ICP备05006863号</span>
+		</div>
+	</div>
+	<div id="foot_b">
+		Copyright &copy; <a href="/">清影PT</a> 2011-2015 Powered by NexusPHP
+	</div>
+</div>
+<script type="text/javascript" src="js/basic.js"></script>
+<script type="text/javascript" src="js/calendar.js"></script>
+<script type="text/javascript" src="js/calendar_for_mod.js"></script>
+</footer>
+</body>
+</html>

@@ -9,46 +9,68 @@ class USER {
 	private $updateset = array();
 	
 	public function __construct(){
+		if(!isset($_COOKIE['QSESSION']) && !isset($_COOKIE['QPTUID']))
+			self::resetKey();
+		$id = 0 + intval($_COOKIE['QPTUID']);
+
 		$ret = $this::authKey($_COOKIE['QSESSION']);
 		// d($ret);
-		if(!empty($ret)){
-			$id = 0 + $ret[0];
-			$ip = $ret[1];
-			// d($id);
-			$res = Q::$DB->query("SELECT * FROM users WHERE id = ". Q::$DB->esc($id));
-			if($row = $res->fetch_assoc()){
-				$this->user = $row;
-			}
+		if(empty($ret) || $ret == false){
+			self::resetKey();
 		} else {
-			Q::quit("error", "re-login");
+			if(is_array($ret)){
+				if($ret[0] != $id)
+					self::resetKey();
+				$res = Q::$DB->query("SELECT * FROM users WHERE id = '$id'"); // secure ??
+			} else 
+				$res = Q::$DB->query("SELECT * FROM users WHERE id = '$id'");
+			if($res->num_rows < 1)
+				self::resetKey();
+			$row = $res->fetch_assoc();
+			if($ret == "repeat"){
+				if(self::verifyKey($_COOKIE['QSESSION'], $row['passhash'], $row['id'], $row['username']) == false){
+					self::destroyKey();
+					self::resetKey();
+				}
+			}	
+			$this->user = $row;
 		}
 		// unreachable
-		return;
 	}
 	
 	public function __get($name){
 		if(isset($this->user[$name]))
-			return $name;
+			return $this->user[$name];
 		elseif($name == 'u'){
 			return $this->user;
 		} else 
 			return null;
 	}
 
+	static public function resetKey(){
+		// clear COOKIE value
+		setcookie('QSESSION', null, -1, '/');
+		setcookie('QPTUID', null, -1, '/');
+		Q::quit("error", "re-login");
+	}
+
 	static public function authKey($key){
 session_start();
-		// print_r($_SESSION);d($key);
+		//print_r($_SESSION);//d($key);
 		if(isset($key) && $key != ""){
 			// d(4);
-			if($_SESSION['key'] == $key){
+			if(isset($_SESSION['key']) && $_SESSION['key'] == $key){
 				// d(5);
 				return array($_SESSION['id'], $_SESSION['ip']);
+			} elseif(isset($_COOKIE['QPTUID']) && $_COOKIE['QPTUID']){
+				return "repeat";
 			}
 		}
 		return null;
 	}
 	
 	static public function createKey($id, $name, $passhash){
+		//TODO: need instant
 		// d(1);
 session_start();
 		// TODO: make it reversible
@@ -67,19 +89,30 @@ session_start();
 		// print_r($_SESSION);
 		// die;
 	}
-	
+
+	static public function destroyKey(){
+		unset($_SESSION['key']);
+		unset($_SESSION['ip']);
+		unset($_SESSION['id']);
+	}
+
 	static public function parseKey($key){
 		$p1 = substr($key, 0, 32);
 		$p2 = substr($key, 32);
 		return [ $p1, self::$cy .$p2 ];
 	}
 	
-	static public function verifyKey($key, $pass){
+	static public function verifyKey($key, $pass, $id, $name){
 		$ret = self::parseKey($key);
-	/*
-	 // uncompleted
-		return passkey_verify($pass, $ret[1]);
-	*/
+		// uncompleted
+		if(password_verify($pass, $ret[1]) && (md5($id.$name) == $ret[0])){
+			$_SESSION['key'] = $key;
+			$_SESSION['id'] = $id;
+			$_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+			//print_r($_SESSION);
+			return true;
+		} else 
+			return false;
 	}
 
 	/**

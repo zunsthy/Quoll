@@ -4,6 +4,6 @@ $SITECONFIG = array(
 	$uri = "yourdomain.com:port",
 	$online = "yes",
 	$ssl = "no",
-	$version = "Quoll 0.0.22",
+	$version = "Quoll 0.4.23.20150406.172",
 );
 ?>

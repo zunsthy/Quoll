@@ -2,9 +2,8 @@
 class FORUM {
 	static private $maxsubjectlength = 40;
 	static private $recyclebinforum = 35;
-
+	
 	static public function listForum($class = 0){
-		// d($class);
 		$class = UTILITY::parseNumber($class, false);
 		// echo $class;		die;
 		$res = Q::$DB->q("SELECT * FROM forums WHERE minclassread <= '$class' ORDER BY forid ASC, sort ASC");
@@ -13,7 +12,7 @@ class FORUM {
 		// font-end use the column 'forid'
 		return $ret;
 	}
-	
+
 	static public function viewForum($fid, $per = 50){
 		$fid = UTILITY::parseNumber($fid);
 		// the column 'onlyauthor' deprecated
@@ -42,7 +41,7 @@ class FORUM {
 		
 		return $ret;
 	}
-	
+
 	static public function viewTopic($tid, $per = 50){
 		$tid = UTILITY::parseNumber($tid);
 		// the column 'sendlog' deprecated
@@ -59,7 +58,7 @@ class FORUM {
 		$ret['topic'] = $res->fetch_assoc();
 		return $ret;
 	}
-	
+
 	static public function viewPost($pid){
 		$pid = UTILITY::parseNumber($pid);
 		$sql = "SELECT posts.*, users.username, users.class"
@@ -69,7 +68,7 @@ class FORUM {
 		$row = $res->fetch_assoc();
 		return $row;
 	}
-	
+
 	/**
 	 * @brief
 	 * @param $fid 	forum ID
@@ -116,12 +115,12 @@ class FORUM {
 		
 		return [ 'topic' => $tid, 'post' => $pid ];
 	}
-
+	
 	static public function updateTopic(){
 		// forbidden for normal users!
 		return false;
 	}
-	
+
 	static public function manageTopic($tid, $action, $value = null){
 		$tid = UTILITY::parseNumber($tid);
 		if($action == "subject"){
@@ -154,7 +153,7 @@ class FORUM {
 		}
 		return true;
 	}
-	
+
 	static public function newPost($tid, $u, $body){
 		$uid = UTILITY::parseNumber($u['id']);
 		$class = UTILITY::parseNumber($u['class']);
@@ -197,5 +196,4 @@ class FORUM {
 		
 		return true;
 	}
-	
 }

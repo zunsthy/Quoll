@@ -1,0 +1,516 @@
+/* 2015-03-31 create */
+/* created by zunsty */
+
+body {
+	/* background: url("login/body_highlight.jpg") repeat scroll center top transparent; */
+	background: #F7F7F7;
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+	font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif;
+	min-width: 900px;
+}
+
+header,nav,main,footer{
+	width: 90%;
+	margin: 0 auto;
+}
+
+header{
+	height: 80px;
+	position: relative;
+	top: 0;
+	left: 0;
+}
+
+div.logo{
+	display: inline-block;
+}
+
+div.logo>img{
+	height: 70px;
+	width: 180px;
+}
+
+div.top{
+	display: block;
+	left: 0;
+	text-align: left;
+	margin: -24px 0 0 54px;
+	font-size: 14px;
+	color: #1CB712;
+}
+
+div,ul,li{
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+nav{
+	height: 40px;
+	position: relative;
+	top: 0;
+	left: 0;
+	background: #EEE;
+	border: 1px solid #EEE;
+	padding: -1px;
+	/* border-radius: 5px; */
+}
+
+li.menu{
+	float: left;
+	position: relative;
+	font-size: 18px;
+	text-align: center;
+	display: block;
+}
+
+li.menu:hover {
+	background-color: #DDDDDD;
+}
+/*
+li.menu:hover ul{
+	display: block;
+}
+*/
+ul.menu_child{
+	position: absolute;
+	left: 1px;
+	width: 56px;
+	max-width: 56px;
+	display: none;
+	z-index: 100;
+	overflow: hidden;
+	clear: both;
+	top: 40px;
+	background-color: #DDDDDD;
+	box-shadow: 0px 1px 5px rgba(0,0,0,0.3);
+}
+
+li.menu_child{
+	position: relative;
+	font-size: 18px;
+	line-height: 20px;
+	padding-top: 3px;
+	padding-bottom: 5px;
+	/* min-width: 40px; */
+	overflow: hidden;
+	text-align: center;
+}
+
+li.menu_child:hover{
+	background-color: #F5F5F5;
+}
+
+li.menu_child>a{
+	color: #93B852;
+	text-decoration: none;
+}
+
+a.link{
+	outline: none;
+	color:#B4B424;
+	text-decoration: none;
+	cursor: pointer;
+	padding: 7px 11px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+}
+
+a.link:hover{
+	color: #4B4B00;
+}
+
+div#searchboxplus{
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 40px;
+	min-width: 140px;
+	width: 20%;
+	margin: 0;
+	padding: 0;
+	border-right: 1px solid #DDD;
+	border-left: 1px solid #DDD;
+	background: #FFF;
+}
+
+form#searchboxplus{
+}
+
+input#searchboxplus_search{
+	box-shadow: none;
+	border: none;
+	float: left;
+	height: 32px;
+	width: 90%;
+	color: #444;
+	text-align: left;
+	font-size: 16px;
+	font-weight: 600;
+	margin: 5px 5px 0 10px;
+	overflow: hidden;
+	padding: 0;
+	background: #FFF;
+}
+
+main {
+	display: block;
+	position: relative;
+	text-align: left;
+	margin-top: 10px;
+}
+
+div.calendar{
+	height: 32px;
+}
+
+div.date,div.for_mod{
+	display: inline-block;
+}
+
+div.date,div.date>div{
+	position: absolute;
+	display: inline-block;
+	height: 32px;
+	margin: 0;
+	padding: 0;
+}
+
+div.date{
+	position: relative;
+	width: 300px;
+	margin-right: 20px;
+}
+
+div.date_previous,div.date_next{
+	cursor: pointer;
+	float: left;
+	background-color: #E5E5E5;
+	opacity: 0.7;
+	/* z-index: 2; */
+}
+
+div.date_previous{
+	left: 0;
+	width: 120px;
+}
+
+div.date_next{
+	left: 180px;
+	width: 120px;
+}
+
+div.date_bar{
+	left: 0;
+	width: 300px;
+	color: #222;
+	font-family: sans-serif;
+	font-size: 16px;
+	overflow: hidden;
+	/* z-index: 1; */
+}
+
+div.date_bar>span{
+	float: left;
+	width: 60px;
+	margin-top: 7px;
+	text-align: center;
+}
+
+div.for_mod{
+	position: absolute;
+	display: inline-block;
+	/* height: 32px; */
+	top: 0;
+	/* left: 300px; */
+	color: #222;
+	text-align: center;
+}
+
+div#date_enter{
+	left: 0;
+	width: 165px;
+	margin-top: 7px;
+	margin-right: 5px;
+	text-align: left;
+	overflow: hidden;
+}
+
+div#create_new{
+	left: 170px;
+	width: 40px;
+	margin-top: 4px;
+	padding: 3px;
+	border: 1px solid #DDD;
+	border-radius: 5px;
+	background-color: #EEE;
+	text-align: center;
+	cursor: pointer;
+}
+
+div.main-wrapper{
+	margin: 10px 0;
+	width: 100%;
+}
+
+.list{
+
+}
+
+div.list{
+
+}
+
+div#list{
+	padding-top: 10px;
+}
+
+ul.list{
+	background-color: #FFF;
+	border-width: 1px 1px medium;
+	border-style: solid solid none;
+	border-radius: 5px;
+	border-color: #EEE;
+	overflow: hidden;
+}
+
+li.list{
+	display: block;
+	position: relative;
+	border-bottom: 1px solid #EEE;
+	overflow: hidden;
+	min-height: 110px;
+	background-color: none repeat scroll 0% 0% #FFF;
+}
+
+div.side_l{
+	background-color: #FAFAFA;
+	width: 54px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	border-right: 1px solid #E4E4E4;
+	text-align: center;
+}
+
+div.side_r{
+	margin-left: 54px;
+	padding: 10px 0 0 30px;
+	position: relative;
+	height: 100%;
+}
+
+p,span{
+	margin: 0;
+	padding: 0;
+}
+
+p.ico_yd,p.text{
+	position: absolute;
+	left: 0;
+	top: 50%;
+	margin-top: -10px;
+	width: 100%;
+}
+
+div.side_r>div{
+	float: left;
+	margin: 1px 20px 20px 0;
+	position: relative;
+}
+
+div.items{
+	cursor: pointer;
+	width: 255px;
+	height: 78px;
+}
+
+div.items:hover{
+	background-color: #F2E945;
+}
+
+div.cover{
+	display: inline-block;
+	border: 1px solid #E4E4E4;
+	padding: 6px;
+}
+
+div.cover{
+}
+
+div.cover>div{
+	overflow: hidden;
+	width: 64px;
+	height: 64px;
+}
+
+div.cover>div>img{
+	height: 64px;
+	/* width: 64px; */
+}
+
+div.title{
+	/* position: absolute; */
+	display: inline-block;
+	/* height: 70px; */
+	width: 170px;
+	margin: 0px 0 0 5px;
+	line-height: 32px;
+	text-align: left;
+	overflow: hidden;
+}
+
+div.title>p{
+	white-space: nowrap;
+	word-wrap: normal;
+	word-break: keep-all;
+	overflow: hidden;
+}
+/*
+div.title>p:nth-of-type(2){
+	width: 50%;
+}
+*/
+div.mod{
+	text-align: right;
+	margin: -28px 0 0 0;
+}
+
+span.mod{
+	font-size: 14px;
+	color: #AAA;
+	margin-right: 5px;
+	padding: 0;
+	width: 33%;
+	cursor: pointer;
+}
+
+div.main-bottom{
+	display: block;
+	position: relative;
+	width: 100%;
+	text-align: left;
+	color: #444;
+}
+
+div#edit.for_mod{
+	position: relative;
+	width: 100%;
+	text-align: left;
+}
+
+div#edit.for_mod>div{
+	border: 1px dotted #CCC;
+	border-collapse: collapse;
+}
+/*
+div#edit.for_mod>div>div{
+	height: 24px;
+	width: 280px;
+}
+
+div#edit.for_mod>div>div:nth-of-type(2n+1){
+	color: #222;
+	font-weight: 700;
+	overflow: hidden;
+	white-space: nowrap;
+	word-break: keep-all;
+	word-wrap: normal;
+}
+
+div#edit.for_mod>div>div:nth-of-type(2n){
+	width: 56px;
+	text-align: left;
+}
+*/
+div#edit.for_mod>div>div,div#edit.for_mod>div>input{
+	height: 24px;
+}
+
+div#edit.for_mod>div>div{
+	width: 56px;
+	text-align: left;
+	display: inline-block;
+}
+
+div#edit.for_mod>div>input{
+	width: 500px;
+	color: #222;
+	font-weight: 700;
+	box-shadow: none;
+	border: none;
+	text-align: right;
+	margin-right: 10px;
+}
+
+div#mod_submit{
+	height: 30px;
+	text-align: center;
+	cursor: pointer;
+	font-size: 18px;
+}
+
+div#mod_submit:hover{
+	background-color: #87DE6C;
+}
+
+span.note{
+	color: #777;
+}
+
+footer{
+	font-size: 12px;
+	color: #333;
+}
+
+footer a{
+	color: #333;
+	cursor: crosshair;
+	text-decoration: none;
+}
+
+div#footer{
+	position: relative;
+	width: 100%;
+	height: 70px;
+	margin-top: 40px;
+	padding-top: 7px;
+	border-top: 1px solid #DDD;
+	text-align: center;
+}
+
+div.foot_l,div.foot_r{
+	display: inline-block;
+	float: left;
+}
+
+div.foot_l ul,div.foot_l li{
+	margin: 0 auto;
+	width: 170px;
+	float: left;
+	text-align: left;
+}
+
+div.foot_l ul{
+	width: 100%;
+	/* height: 70px; */
+}
+
+div.foot_l li{
+}
+
+div.foot_l li a{
+	line-height: 20px;
+}
+
+div#foot_b{
+	bottom: 0;
+	right: 0;
+	margin-bottom: 15px;
+	position: absolute;
+	display: block;
+}
