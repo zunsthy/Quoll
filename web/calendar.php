@@ -36,9 +36,16 @@ if($_REQUEST['action'] == 'edit' && isset($_REQUEST['id']) && isset($_REQUEST['f
 	}
 } elseif($_REQUEST['action'] == 'query' && isset($_REQUEST['id']) && isset($_REQUEST['ep'])){
 	$ret = $C->detail($_REQUEST['id'], $_REQUEST['ep']);
-} elseif($_REQUEST['action'] == 'permission')
+} elseif($_REQUEST['action'] == 'update' && isset($_REQUEST['date'])){
+	$ret = true;
+	if(is_array($_REQUEST['date'])){
+		foreach($_REQUEST['date'] as $d)
+		$ret = $ret && $C->update($d);
+	} else
+		$C->update($_REQUEST['date']);
+} elseif($_REQUEST['action'] == 'permission'){
 	$ret = $C->getPermission();
-else
+} else
 	$ret = false;
 } else {
 	if(isset($_REQUEST['date'])){
