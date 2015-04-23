@@ -51,6 +51,7 @@ class CALENDAR {
 			;
 
 		if(empty($ret) && ($type == "" || $type == 0 || $type == 1)){
+		//if($type == "" || $type == 0 || $type == 1){
 			// automatic update
 			$date->modify('-8 day');
 			$now = new DateTime();
@@ -65,15 +66,44 @@ class CALENDAR {
 					$time = new DateTime($row['time']);
 					$time->modify('+1 Week');
 					$ep = $row['ep'] + 1;
-					$insert_rows[] = "(" .$time->format('Y-m-d H:i:s') .", '$ep', '$row[status]', '$row[follow]')";
+					$insert_rows[] = "('" .$time->format('Y-m-d H:i:s') ."', '$ep', '$row[status]', '$row[follow]')";
 				}
 				if(!empty($insert_rows)){
 					Q::$DB->q("INSERT INTO calendar_items (time, ep, status, follow) VALUES " .implode(",", $insert_rows));
 				}
 			}
-		} else 
-			return $ret;
+		}
+		return $ret;
 		// return false; //??
+	}
+
+	public function update($cur){
+		$date = new DateTime($cur);
+		$tod = $date->format('Y-m-d H:i:s');
+		$date->modify('+1 day');
+		$tmr = $date->format('Y-m-d H:i:s');
+		$cur_ids = [];
+		$res = Q::$DB->q("SELECT * FROM calendar_items WHERE (status = 'air' OR status = 'fin') AND time >= '$tod' AND time < '$tmr'");
+		while($row = $res->fetch_assoc()){
+			$cur_ids[] = $row['follow'];
+		}
+		
+		$date->modify('-8 day');
+		$tod = $date->format('Y-m-d H:i:s');
+		$date->modify('+1 day');
+		$tmr = $date->format('Y-m-d H:i:s');
+		$insert_rows = [];
+		$res = Q::$DB->q("SELECT * FROM calendar_items WHERE status = 'air' AND time >= '$tod' AND time < '$tmr' AND follow NOT IN (". implode(',', $cur_ids) .")");
+		while($row = $res->fetch_assoc()){
+			$time = new DateTime($row['time']);
+			$time->modify('+1 Week');
+			$ep = $row['ep'] + 1;
+			$insert_rows[] = "('" .$time->format('Y-m-d H:i:s') ."', '$ep', '$row[status]', '$row[follow]')";
+		}
+		if(!empty($insert_rows)){
+			Q::$DB->q("INSERT INTO calendar_items (time, ep, status, follow) VALUES " .implode(",", $insert_rows));
+			return true;
+		}
 	}
 
 	public function detail($id, $ep){
