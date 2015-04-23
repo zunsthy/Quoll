@@ -37,7 +37,7 @@ var require_lang_file = setInterval(function(){
 
 var calendar = new CalendarList("", 0, true);
 
-var searchlink = "/torrents.php?search=";
+var searchlink = "browse.html?s=";
 
 function CalendarList(date, type, all){
 	this.date = date ? new Date(date) : new Date();
