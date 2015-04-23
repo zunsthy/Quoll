@@ -155,13 +155,6 @@ function showList(ele, objs){
 	}
 }
 
-function getParameterByName(name) {
-	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-			results = regex.exec(location.search);
-	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
 function changeHref(objs){
 	var newurl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?';
 	//console.log(objs);

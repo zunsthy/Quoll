@@ -5,128 +5,14 @@
 	<title>放送时间表::清影PT</title>
 	<meta name="description" content="清影PT-分享精彩,其乐无穷"></meta>
 	<meta name="keywords" content="清影PT 放送时间表"></meta>
+	<link type="text/css" href="styles/basic.css" rel="stylesheet"></link>
 	<link type="text/css" href="styles/calendar/calendar.css" rel="stylesheet"></link>
 	<script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
 </head>
 <body>
 <header>
-	<div class="logo">
-		<img src="styles/calendar/logo-black.png" alt="清影PT">
-	</div>
-	<div class="top">分享精彩,其乐无穷</div>
 </header>
-<nav>
-	<ul class="menu">
-		<li class="menu"><a class="link" href="/">首页</a></li>
-		<li class="menu"><a class="link" href="forums.php">论坛</a></li>
-		<li class="menu"><a class="link" href="torrents.php?cat=401">电影</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=57">合集</a></li>
-				<li class="menu_child"><a href="torrents.php?source=60">原盘</a></li>
-				<li class="menu_child"><a href="torrents.php?source=3">1080P</a></li>
-				<li class="menu_child"><a href="torrents.php?source=6">720P</a></li>
-				<li class="menu_child"><a href="torrents.php?source=5">480P</a></li>
-				<li class="menu_child"><a href="torrents.php?source=7">其他</a></li>
-			</ul>
-		</li>
-		<li class="menu"><a class="link" href="torrents.php?cat=402">剧集</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=23">大陆</a></li>
-				<li class="menu_child"><a href="torrents.php?source=24">港台</a></li>
-				<li class="menu_child"><a href="torrents.php?source=25">欧美</a></li>
-				<li class="menu_child"><a href="torrents.php?source=26">日韩</a></li>
-				<li class="menu_child"><a href="torrents.php?source=28">完结</a></li>
-			</ul>
-		</li>
-		<li class="menu"><a class="link" href="torrents.php?cat=405">动漫</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=45">连载</a></li>
-				<li class="menu_child"><a href="torrents.php?source=51">完结</a></li>
-				<li class="menu_child"><a href="torrents.php?source=46">漫画</a></li>
-				<li class="menu_child"><a href="torrents.php?source=52">音乐</a></li>
-				<li class="menu_child"><a href="torrents.php?source=84">OVA</a></li>
-				<li class="menu_child"><a href="torrents.php?source=47">其他</a></li>
-			</ul>
-		</li>
-		<li class="menu"><a class="link" href="torrents.php?cat=404">记录</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=61">自然</a></li>
-				<li class="menu_child"><a href="torrents.php?source=64">科技</a></li>
-				<li class="menu_child"><a href="torrents.php?source=63">历史</a></li>
-				<li class="menu_child"><a href="torrents.php?source=62">人文</a></li>
-				<li class="menu_child"><a href="torrents.php?source=34">其他</a></li>
-			</ul>
-		</li>
-		<li class="menu"><a class="link" href="torrents.php?cat=403">综艺</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=68">娱乐</a></li>
-				<li class="menu_child"><a href="torrents.php?source=69">访谈</a></li>
-				<li class="menu_child"><a href="torrents.php?source=70">比赛</a></li>
-				<li class="menu_child"><a href="torrents.php?source=18">其他</a></li>
-			</ul>
-		</li>
-		<li class="menu"><a class="link" href="torrents.php?cat=407">体育</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=20">篮球</a></li>
-				<li class="menu_child"><a href="torrents.php?source=21">足球</a></li>
-				<li class="menu_child"><a href="torrents.php?source=22">其他</a></li>
-				<li class="menu_child"><a href="torrents.php?source=65">教学</a></li>
-			</ul>
-		</li>
-		<li class="menu"><a class="link" href="torrents.php?cat=406">音乐</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=2">华语</a></li>
-				<li class="menu_child"><a href="torrents.php?source=1">欧美</a></li>
-				<li class="menu_child"><a href="torrents.php?source=8">日韩</a></li>
-				<li class="menu_child"><a href="torrents.php?source=9">古典</a></li>
-				<li class="menu_child"><a href="torrents.php?source=76">新世纪</a></li>
-				<li class="menu_child"><a href="torrents.php?source=17">演唱会</a></li>
-				<li class="menu_child"><a href="torrents.php?source=16">M V </a></li>
-				<li class="menu_child"><a href="torrents.php?source=10">其他</a></li>
-			</ul>
-		</li>
-		<li class="menu"><a class="link" href="torrents.php?cat=413">软件</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=42">Win</a></li>
-				<li class="menu_child"><a href="torrents.php?source=50">*nix</a></li>
-				<li class="menu_child"><a href="torrents.php?source=43">手机</a></li>
-				<li class="menu_child"><a href="torrents.php?source=44">其他</a></li>
-			</ul>
-		</li>
-		<li class="menu"><a class="link" href="torrents.php?cat=410">游戏</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=11">电脑</a></li>
-				<li class="menu_child"><a href="torrents.php?source=12">主机</a></li>
-				<li class="menu_child"><a href="torrents.php?source=14">手机</a></li>
-				<li class="menu_child"><a href="torrents.php?source=13">其他</a></li>
-			</ul>
-		</li>
-		<li class="menu"><a class="link" href="torrents.php?cat=411">学习</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=29">考研</a></li>
-				<li class="menu_child"><a href="torrents.php?source=58">外语</a></li>
-				<li class="menu_child"><a href="torrents.php?source=30">专业</a></li>
-				<li class="menu_child"><a href="torrents.php?source=31">讲座</a></li>
-				<li class="menu_child"><a href="torrents.php?source=66">文选</a></li>
-				<li class="menu_child"><a href="torrents.php?source=67">书刊</a></li>
-				<li class="menu_child"><a href="torrents.php?source=32">其他</a></li>
-			</ul>
-		</li>
-		<li class="menu"><a class="link" href="torrents.php?cat=409">其他</a>
-			<ul class="menu_child" style="display:none;">
-				<li class="menu_child"><a href="torrents.php?source=77">哈工大</a></li>
-				<li class="menu_child"><a href="torrents.php?cat=409">其他</a></li>
-			</ul>
-		</li>
-	</ul>
-	<div id="searchboxplus">
-	<form id="searchboxplus" class="clearfix" action="torrents.php?" method="get">
-		<input id="searchboxplus_search" type="text" placeholder="搜..." name="search"></input>
-		<input id="searchboxplus_incldead" type="text" style="display:none;" value="0" name="incldead"></input>
-		<input id="searchboxplus_submit" type="submit" style="display:none;"></input>
-	</form>
-	</div>
-</nav>
+<nav></nav>
 <main>
 	<div class="main-wrapper">
 		<div class="calendar">
@@ -144,6 +30,7 @@
 			<div class="for_mod" style="display:none;">
 				<div id="date_enter" contentEditable="true" class="for_mod"></div>
 				<div id="create_new" class="for_mod">新增</div>
+				<div id="update_cur" class="for_mod">更新</div>
 			</div>
 		</div>
 		<div id="list" class="list">
@@ -205,14 +92,15 @@
 		<div id="edit" class="for_mod" style="display:none;">
 			<div id="edit_action" style="display:none;"></div>
 			<div id="edit_id">
-				<input id="mod_id"></input><div>id</div><span class="note">如果id存在则为修改，置空为创建</span><br />
-				<input id="mod_ep"></input><div>ep</div><!--<span class="note">如果集数存在则为修改，否则为创建</span><br />-->
+				<input id="mod_id" readonly="readonly"></input><div>id</div><span class="note">如果id存在则为修改，置空为创建</span><br />
+				<input id="mod_ep" readonly="readonly"></input><div>ep</div><span class="note">如果ep存在则为修改，否则为创建</span><br />
 			</div>
 			<div id="edit_calendar">
 				<input id="mod_name"></input><div>name</div><br />
 				<input id="mod_keywords"></input><div>keywords</div><br />
 				<input id="mod_cover"></input><div>cover</div><br />
 				<input id="mod_type"></input><div>type</div><span class="note">0 动漫 1 剧集 2 电影 ...</span><br />
+				<input id="mod_episode"></input><div>eposide</div><span class="note">与上面那个不一样则为更改集数</span><br />
 			</div>
 			<div id="edit_item">
 				<input id="mod_status"></input><div>status</div><span class="note">(air/fin/sp/ova/movie)</span><br />
@@ -257,6 +145,7 @@
 		Copyright &copy; <a href="/">清影PT</a> 2011-2015 Powered by NexusPHP
 	</div>
 </div>
+<script type="text/javascript" src="js/framework.js"></script>
 <script type="text/javascript" src="js/basic.js"></script>
 <script type="text/javascript" src="js/calendar.js"></script>
 <script type="text/javascript" src="js/calendar_for_mod.js"></script>

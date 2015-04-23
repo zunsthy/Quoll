@@ -13,13 +13,14 @@ function clearForm(){
 			this.value = "";
 		else
 			this.style.display = "none";
+	//}).attr("contentEditable", "true");
 	});
 }
 
 function newCalendar(){
 	$.get(query_url, {
 		action: 'new',
-		ep: $("input#mod_ep")[0].value,
+		ep: $("input#mod_episode")[0].value,
 		name: $("input#mod_name")[0].value,
 		keywords: $("input#mod_keywords")[0].value,
 		type: $("input#mod_type")[0].value,
@@ -42,7 +43,7 @@ function editCalendar(cfield, cdata){
 	
 	cid = $("input#mod_id")[0].value;
 	cep = $("input#mod_ep")[0].value;
-	$.get(query_url, { action: 'edit', id: cid, ep: cep, field: cfield, data: cdata },
+	$.get(query_url, { action: 'edit', id: cid, ep: cep, field: cfield=='episode' ? 'ep' : cfield, data: cdata },
 	function(data){
 		if(data == 'empty'){
 			$("div#edit_action")[0].innerHTML = "new";
@@ -54,6 +55,16 @@ function editCalendar(cfield, cdata){
 				initPage();
 		}
 	}, 'json');
+}
+
+function updateCalendar(d){
+	if(d){
+		$.get(query_url, { action: 'update', date: d }, function(data){
+			if(data == 'success'){
+				location.reload();
+			}
+		}, 'json');
+	}
 }
 
 $("div#date_enter").keypress(function(e){
@@ -102,6 +113,11 @@ $(document).on('click', "div#create_new", function(){
 		$("input#mod_id")[0].value = "";
 		$("input#mod_time")[0].value = d;
 	}
+}).on('click', "div#update_cur", function(){
+	var d = $("div#date_enter")[0].innerHTML;
+	if(d && /^\d{4}\-\d{2}\-\d{2}(\s?\d{2}:\d{2}:\d{2})?($|<)/.test(d)){
+		updateCalendar(d.match(/^\d{4}\-\d{2}\-\d{2}/));
+	}
 }).on('click', "span.mod_edit", function(){
 	clearForm();
 	//console.log(this.parentNode.previousSibling);
@@ -109,6 +125,7 @@ $(document).on('click', "div#create_new", function(){
 	$("div#edit_action")[0].value = "edit";
 	cid = $("input#mod_id")[0].value = ds.id;
 	cep = $("input#mod_ep")[0].value = ds.ep;
+	$("input#mod_episode")[0].value = cep;
 	$.get(query_url, { action: 'query', id: cid, ep: cep }, function(data){
 		$("input#mod_name")[0].value = data.name;
 		if(data.keywords) $("input#mod_keywords")[0].value = data.keywords;
