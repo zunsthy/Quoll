@@ -1,0 +1,439 @@
+/* 2015-04-16 create */
+/* edited by zunsthy */
+
+/* body{
+	min-width: 720px;
+} */
+
+section#searchbox{
+	margin-top: 20px;
+	/* display: none; */
+	/* text-align: center; */
+}
+
+div.searchbox_area{
+	width: 100%;
+	box-sizing: border-box;
+}
+
+div.searchbox_row{
+	display: block;
+}
+
+div.searchbox_row>div{
+	position: relative;
+	display: block;
+}
+
+div.searchbox_row>div>div{
+	cursor: pointer;
+	position: relative;
+	text-align: center;
+	float: left;
+	transition: background .5s ease, color 0.5s ease, transform 0.5s;
+}
+
+div.searchbox_row>div>div.active{
+}
+
+div.searchbox_row>div{
+	vertical-align: top;
+	height: 40px;
+	color: #333;
+}
+
+div#searchbox_go{
+	display: inline-block;
+	width: 23px;
+	margin: -5px 10px 0 0;
+	height: 20px;
+	text-align: center;
+	padding: 5px;
+	font-weight: bolder;
+	color: #9ECC33;
+	background: rgba(158, 158, 158, .16);
+	cursor: pointer;
+	transition: color 0.5s ease;
+	/* float: left; */
+}
+
+div#searchbox_go:hover{
+	color: #333;
+}
+
+#state,#type,#cat,#sou,#order,#orderby{
+	margin: 5px 0;
+}
+
+#state div,#type div,#cat div,#sou div,#order div,#orderby div{
+	padding: 8px;
+	margin-right: 12px;
+	text-align: center;
+	background-color: rgba(158, 158, 158, .16);
+}
+
+#state div.active,#type div.active,#cat div.active,#sou div.active,#order div.active,#orderby div.active{
+	background-color: rgba(170, 204, 34, .6);
+	color: #B4B424;
+}
+
+div#ss{
+	display: inline-block;
+	/* float: left; */
+	width: 30%;
+	max-width: 280px;
+}
+
+input#ss{
+	width: 90%;
+	padding: 0 5% 2px 5%;
+	border: none;
+	border-bottom: 2px solid rgba(0, 0, 0, 0);
+	box-shadow: none;
+	background-color: rgba(0, 0, 0, 0);
+	color: #444;
+	font-size: 16px;
+	font-weight: bold;
+	transition: border 1.0s linear;
+}
+
+input#ss:focus{
+	border-bottom: 1px solid #AACC22;
+}
+
+#sa,#sm,#all,#marked{
+	margin-left: 8px;
+	display: inline-block;
+	/* float: left; */
+	width: 10%;
+	max-width: 100px;
+}
+
+#sa>div,#sm>div,#all>div,#marked>div{
+	font-size: 16px;
+	padding-bottom: 2px;
+	display: none;
+	width: 100%;
+	transition: border 1.0s linear;
+	border-bottom: 2px solid rgba(0, 0, 0, 0);
+}
+
+#sa>div:hover,#sm>div:hover,#all>div:hover,#marked>div:hover{
+	border-bottom: 1px solid #AACC22;
+}
+
+#sa>div:nth-child(1),#sm>div:nth-child(1),#all>div:nth-child(1),#marked>div:nth-child(1){
+	display: block;
+}
+
+section#pager{
+	height: 18px;
+	margin: 20px 0;
+}
+
+section#pager>div#result{
+	float: right;
+	margin: 0 4px;
+	color: #787;
+}
+
+ul#pagers{
+	font-family: Consolas, Monaco, "Andale Mono", monospace;
+	font-weight: bold;
+}
+
+ul#pagers>li{
+	min-width: 32px;
+	text-align: center;
+	float: left;
+	color: #57A5BA;
+	margin-right: 15px;
+	border: 1px dotted #D5D5D5;
+	background-color: none;
+	cursor: pointer;
+}
+
+ul#pagers>li.page:hover{
+	background: #57A5BA;
+	color: #F2F2F2;
+}
+
+ul#pagers>li.page_at{
+	color: #A85A45;
+	cursor: not-allowed;
+}
+
+ul#pagers>li.page_null{
+	cursor: not-allowed;
+}
+
+section#list{
+	margin: 4px 0;
+	background-color: #FDFDFD;
+}
+
+ul#torrents{
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+}
+
+ul#torrents>li{
+	position: relative;
+	height: 48px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	/* margin: 2px 0; */
+	/* border-top: 1px solid #DDD; */
+	border-bottom: 1px solid #DDD;
+	padding-left: 20px;
+}
+
+ul#torrents>li.banned{
+	background-color: rgba(255, 236, 247, 0.5);
+}
+
+ul#torrents>li>div{
+	box-sizing: border-box;
+}
+
+div.t_tool{
+	position: absolute;
+	right: 20%;
+	/* margin-right: 10px; */
+	top: 0;
+	display: flex;
+	flex-direction: row;
+}
+
+div[class^=t_ico_],div.t_mark,div.t_mark_no,div.t_download,div.t_edit{
+	height: 48px;
+	width: 48px;
+	border-radius: 50%;
+	z-index: 1;
+	cursor: pointer;
+}
+
+div[class^=t_ico]{
+}
+
+div.t_mark,div.t_mark_no,div.t_download,div.t_edit{
+	display: none;
+	/* position: absolute; */
+	top: 0;
+	background-image: url("browse.svg");
+	transition: opacity 0.5s ease;
+	opacity: 0.3;
+}
+
+div.t_download,div.t_download:hover{
+	background-color: rgba(133, 224, 255, 0.4);
+	background-position: 0 -48px;
+	left: 68px;
+}
+
+div.t_download:hover{
+	opacity: 1.0;
+}
+
+div.t_mark,div.t_mark_no:hover{
+	background-color: rgba(255, 144, 0, 0.4);
+	background-position: -96px 0;
+	transition: background 0.5s linear, opacity 0.5 ease;
+	left: 116px;
+}
+
+div.t_mark_no,div.t_mark:hover{
+	background-color: rgba(255, 144, 0, 0.4);
+	background-position: -144px 0;
+	transition: background 0.5s linear, opacity 0.5 ease;
+	left: 116px;
+}
+
+div.t_mark:hover,div.t_mark_no:hover{
+	opacity: 1.0;
+}
+
+div.t_edit,div.t_edit:hover{
+	background-color: rgba(204, 255, 102, 0.6);
+	background-position: -48px -48px;
+	left: 164px;
+}
+
+div.t_edit:hover{
+	opacity: 1.0;
+}
+
+div.t_main{
+	text-align: left;
+	margin-left: 10px;
+	top: 0;
+	max-width: 66%;
+	overflow: hidden;
+	white-space: nowrap;
+	/* height: 100%; */
+}
+
+div.t_name{
+	color: #555;
+	font-size: 14px;
+	height: 16px;
+}
+
+div.t_descr{
+	/* text-align: center; */
+	text-align: left;
+	color: #333;
+	font-size: 14px;
+	height: 16px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+div.t_descr:before {
+	content: "";
+	position: absolute;
+	/* z-index: -1; */
+	left: 0;
+	right: 100%;
+	bottom: 0;
+	background: #99FF66;
+	height: 2px;
+	transition: right 0.6s ease-out;
+}
+		
+div.t_descr:hover:before,div.t_descr:focus:before,div.t_descr:active:before {
+	right: 0;
+}
+
+div.t_descr:hover{
+}
+
+div.t_descr_s{
+	text-align: left;
+	color: #777;
+	font-size: 12px;
+	height: 14px;
+}
+
+div.t_right{
+	position: absolute;
+	right: 8%;
+	/* position: relative; */
+	/* float: right; */
+	top: 4px;
+	font-size: 12px;
+	padding-right: 5px;
+	max-width: 18%;
+	line-height: 110%;
+}
+
+div.t_time{
+	text-align: center;
+}
+
+div.t_size{
+	text-align: center;
+	font-family: Consolas,Monaco,"Andale Mono",monospace;
+	font-weight: bold;
+	color: #333;
+}
+
+div.t_uploader{
+	text-align: center;
+}
+
+div.t_top{
+	position: absolute;
+	right: 0;
+	/* position: relative; */
+	/* float: right; */
+	top: 0;
+	width: 8%;
+	color: #FFF;
+	height: 100%;
+	font-size: 16px;
+	overflow: hidden;
+	transition: color 0.5s ease;
+}
+
+div.t_top>div{
+	/* float: left; */
+	position: absolute;
+	max-height: 50%;
+	min-height: 50%;
+	height: 50%;
+	max-width: 72px;
+	width: 50%;
+	box-sizing: border-box;
+	padding: 0 5%;
+	margin: 0;
+	/* line-height: 100%; */
+	line-height: 24px;
+	/* baseline: bottom; */
+	vertical-align: baseline;
+}
+
+div.t_seeders{
+	top: 0;
+	left: 0;
+	text-align: right;
+	background-color: rgba(92, 85, 148, .6);
+}
+
+div.t_leechers{
+	top: 0;
+	left: 50%;
+	text-align: right;
+	background-color: #458AC6;
+}
+
+div.t_completed{
+	top: 50%;
+	left: 0;
+	text-align: left;
+	background-color: rgba(0, 196, 188, .5);
+}
+
+div.t_comments{
+	top: 50%;
+	left: 50%;
+	text-align: left;
+	background-color: rgba(123, 192, 123, .8);
+}
+
+div.t_addition{
+	display: none;
+}
+
+li.torrent{
+	transition: background 0.7s linear;
+}
+
+li.torrent:hover{
+	background-color: rgba(158, 158, 158, .6);
+}
+
+li.torrent:hover>div.tool{
+	display: block;
+}
+
+li.torrent:hover div.t_mark,li.torrent:hover div.t_download,li.torrent:hover div.t_mark_no{
+	display: block;
+}
+
+li.torrent:hover>div.t_top{
+	color: #000;
+	font-weight: bold;
+}
+
+li.torrent[data-pos=sticky]:before{
+	content: "";
+	position: absolute;
+	left: 0;
+	width: 4px;
+	bottom: 0;
+	background: #A0FF44;
+	height: 100%;
+}

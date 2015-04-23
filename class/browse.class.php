@@ -1,19 +1,23 @@
 <?php
-// TODO: "ORDER BY"
 class BROWSE {
+	static private $class = ['edit' => 170, 'view_banned' => 11];
+
 	private $parameter = array();
 	private $wherea = array();
+	private $orderby = "";
 
 	private $ret = null;
 	private $sql = "";
 	private $url = "";
-	private $pages = 0;
+	private $pages;
+
+	private $field;
+	private $user;
 	
-	function __construct(){
-		self::init();
+	public function __construct($user){
+		$this->user = $user;
 		// print_r($this->parameter);
 		// print_r($this->wherea);
-		
 	}
 	
 	public function __get($name){
@@ -30,28 +34,30 @@ class BROWSE {
 			case 'p':
 				return $this->pages;
 				break;
-			default :
-				null;
+			case 'f':
+			case 'field':
+				return $this->field;
+				break;
 		}
 	}	
 	
 	/**
 	 * @brief analysis the REQUEST
 	 */
-	private function init(){
+	public function init(){
 		
-		$this::getCategory();
+		$this->getCategory();
 		// d(1);
-		$this::getKeyword();
+		$this->getKeyword();
 		// d(2);
-		$this::getPromotion();
-		$this::getType();
-		$this::getBanned();
-		$this::getAll();
-		$this::getMarked();
-		// $this::getSort();
+		$this->getPromotion();
+		$this->getType();
+		$this->getBanned();
+		$this->getAll();
+		$this->getMarked();
+		$this->getOrder();
 		
-		$this::onEnd();
+		$this->onEnd();
 	}
 	
 	/**
@@ -128,18 +134,19 @@ class BROWSE {
 		if(isset($_REQUEST['s']) && $_REQUEST['s'] != ""){
 			// $str = trim(Q::$DB->esc(Q::replaceControlCharacters($_REQUEST['searchstr'])));
 			$str = trim(Q::$DB->real_escape_string($_REQUEST['s']));
+			$str = mb_substr($str, 0, 60, 'utf-8');
 			// d($str);
 			if(empty($str))
 				return;
-			$area = 0 + $_REQUEST['searcharea'];
-			$mode = 0 + $_REQUEST['searchmode'];
+			$area = isset($_REQUEST['sa']) ? intval($_REQUEST['sa']) : 0;
+			$mode = isset($_REQUEST['sm']) ? intval($_REQUEST['sm']) : 0;
 			// d($area);
 			// d($mode);
 			if($area == 4){ // the index number, such as IMDb, Douban, SteamID...
 				$no = self::parseNumber($str);
 				if(!$no || !is_numeric($no))
 					return;
-				$this->parameter[] = 'searcharea=4';
+				$this->parameter[] = 'sa=4';
 				$this->parameter[] = "s=$no";
 				$this->wherea[] = "url='$no'";
 			} elseif($mode == 2){ // the strict mode
@@ -147,39 +154,40 @@ class BROWSE {
 					// d(4);
 					$this->wherea[] = "users.username = ". Q::$DB->esc($str);
 					$this->parameter[] = "s=$str";
-					$this->parameter[] = "searcharea=3";
-					$this->parameter[] = "searchmode=2";
+					$this->parameter[] = "sa=3";
+					$this->parameter[] = "sm=2";
 				} elseif($area == 1){
 					// d(5);
 					$this->wherea[] = "torrents.descr LIKE '%". Q::$DB->real_escape_string($str). "%'";
 					$this->parameter[] = "s=$str";
-					$this->parameter[] = "searcharea=1";
-					$this->parameter[] = "searchmode=2";
+					$this->parameter[] = "sa=1";
+					$this->parameter[] = "sm=2";
 				} else{
 					// d(6);
 					$this->wherea[] = "(torrents.name LIKE '%". Q::$DB->real_escape_string($str). "%'"
 						." OR torrents.small_descr LIKE '%". Q::$DB->real_escape_string($str). "%'";
 					$this->parameter[] = "s=$str";
-					// $this->parameter[] = "searcharea=0"; // default
-					$this->parameter[] = "searchmode=2";
+					// $this->parameter[] = "sa=0"; // default
+					$this->parameter[] = "sm=2";
 				}
 			} else { // mode 'AND' or 'OR'
 				$str = str_replace([ '_', '.', '+' ], ' ', $str);
 				$str = preg_replace('/\s\s+/', ' ', $str);
 				$strs = explode(' ', $str);
+				$strs = array_slice($strs, 0, 6);
 				foreach($strs as &$s){
 					$s = "'%" .Q::$DB->real_escape_string($s) ."%'";
 				}
 				if($area == 3){ // search the uploader
 					$this->wherea[] = "users.username LIKE $strs[0]";
 					$this->parameter[] = "s=$str";
-					$this->parameter[] = 'searcharea=3';
-					// $this->parameter[] = "searchmode=$mode";
+					$this->parameter[] = 'sa=3';
+					// $this->parameter[] = "sm=$mode";
 				} elseif($area == 1){ // search the description
 					$this->wherea[] = "torrents.descr LIKE $strs[0]";
 					$this->parameter[] = "s=$str";
-					$this->parameter[] = 'searcharea=1';
-					// $this->parameter[] = "searchmode=$mode";
+					$this->parameter[] = 'sa=1';
+					// $this->parameter[] = "sm=$mode";
 				} else { // area = 0
 					$andor = ($mode == 0) ? "AND" : "OR";
 					foreach($strs as &$s){
@@ -188,9 +196,9 @@ class BROWSE {
 					$tmp = implode(" $andor ", $strs);
 					$this->wherea[] = "($tmp)";
 					$this->parameter[] = "s=$str";
-					// $this->parameter[] = "searcharea=0";
+					// $this->parameter[] = "sa=0";
 					if($mode == 1)
-						$this->parameter[] = "searchmode=1";
+						$this->parameter[] = "sm=1";
 					self::insertHotwords($str);
 				}
 			}
@@ -220,38 +228,26 @@ class BROWSE {
 		static $arr_p = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
 		if(!isset($_REQUEST['state']))
 			return;
-		$state = 0 + $_REQUEST['state'];
-		if(!is_numeric($state) || !in_array($state, $arr_p))
+		$state = intval($_REQUEST['state']);
+		if(!in_array($state, $arr_p))
 			return;
-		$this->wherea[] = "spstate = $state";
-		if($state) // 0 is default value
+		if($state){ // 0 is default value
+			$this->wherea[] = "sp_state = $state";
 			$this->parameter[] = "state=$state";
+		}
 	}
 	
 	/**
 	 * @brief 
 	 */
 	private function getType(){
-		static $arr_t = [ 0, 1, 2, 3 ];
+		static $arr_t = [ 'normal', 'hot', 'classic', 'recommended' ];
 		if(!isset($_REQUEST['type']))
 			return;
-		$type = 0 + $_REQUEST['type'];
-		if(!is_numeric($type) || !in_array($type, $arr_t))
+		$type = $_REQUEST['type'];
+		if(!in_array($type, $arr_t))
 			return;
-		switch($type){
-			case 0:
-				$this->wherea[] = "picktype = 'normal'";
-				break;
-			case 1:
-				$this->wherea[] = "picktype = 'hot'";
-				break;
-			case 2:
-				$this->wherea[] = "picktype = 'classic'";
-				break;
-			case 3:
-				$this->wherea[] = "picktype = 'recommended'";
-				break;
-		}
+		$this->wherea[] = "picktype = '$type'";
 		$this->parameter[] = "type=$type";
 	}
 	
@@ -259,10 +255,12 @@ class BROWSE {
 	 * @brief 
 	 */
 	private function getBanned(){
-		if(!isset($_REQUEST['banned']))
+		if($this->user['class'] < $this->class['view_banned']){
+			$this->wherea[] = "(banned = 'no' OR (banned = 'yes' AND owner = '" .intval($this->user[id]) ."'))";
 			return;
-		if(!$_REQUEST['banned'])
+		} elseif(!isset($_REQUEST['banned'])){
 			return;
+		}
 		$this->wherea[] = "banned = 'yes'";
 		$this->parameter[] = "banned=1";
 	}
@@ -274,8 +272,8 @@ class BROWSE {
 		static $arr_a = [ 0, 1, 2 ];
 		if(!isset($_REQUEST['all']))
 			return;
-		$all = 0 + $_REQUEST['all'];
-		if(!is_numeric($all) || !in_array($all, $arr_a))
+		$all = intval($_REQUEST['all']);
+		if(!in_array($all, $arr_a))
 			return;
 		if($all == 1){
 			$this->wherea[] = "visible = 'yes'";
@@ -292,18 +290,56 @@ class BROWSE {
 	 * @brief 
 	 */
 	private function getMarked(){
+		static $marked_a = [ 0, 1, 2 ];
+		if(!isset($_REQUEST['marked']) || !isset($this->user['id']))
+			return;
+		$marked = intval($_REQUEST['marked']);
+		$in = "(SELECT torrentid FROM bookmarks WHERE userid = '" .$this->user['id'] ."')";
+		if(!in_array($marked, $marked_a))
+			return;
+		switch($marked){
+		case 1:
+			$this->wherea[] = "torrents.id IN $in";
+			$this->parameter[] = "marked=1";
+			break;
+		case 2:
+			$this->wherea[] = "torrents.id NOT IN $in";
+			$this->parameter[] = "marked=2";
+			break;
+		}
+		// 0 is default value
 		return;
 	}
 	
 	/**
 	 * @brief 
 	 */
-	private function getSort(){
+	private function getOrder(){
+		static $orderby_a = [ "title", "comment", "born", "size", "seeder", "leecher", "completed" ];
+		if(!isset($_REQUEST['orderby']))
+			return;
+		$orderby = $_REQUEST['orderby'];
+		if(!in_array($orderby, $orderby_a))
+			return;
+		 
+		$order = isset($_REQUEST['order']) ? "ASC" : "DESC";
+		switch($orderby){
+		case 'title': $column = "torrents.title"; break;
+		case 'comment': $column = "torrents.comments"; break;
+		case 'size': $column = "torrents.size"; break;
+		case 'seeder': $column = "torrents.seeders"; break;
+		case 'leecher': $column = "torrents.leechers"; break;
+		case 'born': 
+		default: $column = "torrents.id"; break;
+		}
+		$this->orderby = "ORDER BY $column $order";
+		$this->parameter[] = "orderby=$orderby";
+		if($order == "ASC") $this->parameter[] = "order=$order";
 		return;
 	}
 	
 	/**
-	 * @brief construct the sql query and url link
+	 * @brief construct the sql query and url query string
 	 */
 	private function onEnd(){
 		$select = "torrents.id, torrents.sp_state, torrents.promotion_time_type, torrents.promotion_until, 
@@ -311,26 +347,46 @@ class BROWSE {
 		torrents.leechers, torrents.seeders, torrents.name, torrents.small_descr, torrents.times_completed, 
 		torrents.size, torrents.added, torrents.comments, torrents.anonymous, torrents.owner, torrents.url, 
 		users.username, users.class";
+		$this->field = [ 'id', 'sp_state', 'promotion_time_type', 'promotion_until', 'banned', 'picktype',
+				'pos_state', 'category', 'source', 'leechers', 'seeders', 'name', 'small_descr', 'times_completed',
+				'size', 'added', 'comments', 'anonymous', 'owner', 'url', 'username', 'class' ];
 		$from = "torrents LEFT JOIN users ON torrents.owner = users.id ";
 		//d($this->wherea);
+
+		$this->url = implode('&', $this->parameter);
+
 		$where = implode(" AND ", $this->wherea);
-		// d("SELECT $select FROM $from WHERE $where");
+		//die("SELECT count(*) FROM $from WHERE $where");
 		if($where)
 			$res = Q::$DB->q("SELECT count(*) FROM $from WHERE $where");
 		else
 			$res = Q::$DB->q("SELECT count(*) FROM $from");
-		$count = $res->num_rows;
-		if($count == 0)
-			return;
-		
-		list($pages, $page, $limit) = UTILITY::page(100, $count);
+		//var_dump($res); die;
+		$row = $res->fetch_row();
+		$count = $row[0];
+
+		//die("count: $count");
+		if($count){
+			// current page 
+			$page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 0;
+			$per = 100;
+			list($pages, $page, $limit) = UTILITY::pager($per, $count, $page);
+		} else {
+			$pages = 0;
+			$page = 0;
+			$limit = "";
+		}
+
+		$orderby = $this->orderby;
+		if($orderby == "")
+			$orderby = "ORDER BY torrents.pos_state DESC, torrents.id DESC";
+
 		if($where)
-			$this->sql = "SELECT $select FROM $from WHERE $where $limit";
+			$this->sql = "SELECT $select FROM $from WHERE $where $orderby $limit";
 		else
-			$this->sql = "SELECT $select FROM $from $limit";
-		$this->url = implode('&', $this->parameter);
-		
-		$this->pages = $pages;
+			$this->sql = "SELECT $select FROM $from $orderby $limit";
+
+		$this->pages = [ $count, $pages, $page ];
 		// d($this->ret);
 		// d($this->url);
 	}
@@ -340,8 +396,11 @@ class BROWSE {
 	 * @return 
 	 */
 	public function output(){
+		//d($this->sql);
+		if($this->pages[0] == 0)
+			return [];
 		$res = Q::$DB->q($this->sql);
-		for($this->ret = array(); $row = $res->fetch_assoc(); $this->ret[] = $row)
+		for($this->ret = array(); $row = $res->fetch_row(); $this->ret[] = $row)
 			;
 		return $this->ret;
 	}
