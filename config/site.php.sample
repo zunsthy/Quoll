@@ -1,9 +1,0 @@
-<?php
-$SITECONFIG = array(
-	$name = "Quoll-PT",
-	$uri = "yourdomain.com:port",
-	$online = "yes",
-	$ssl = "no",
-	$version = "Quoll 0.4.23.20150406.172",
-);
-?>

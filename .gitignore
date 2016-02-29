@@ -1,7 +1,0 @@
-config/*.php
-app/ztest*
-*~
-*.bak
-*.old
-*.bak.*
-
